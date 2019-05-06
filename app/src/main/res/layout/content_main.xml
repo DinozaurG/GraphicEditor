@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:showIn="@layout/app_bar_main"
+        tools:context=".MainActivity">
+
+    <TextView
+            android:layout_width="372dp"
+            android:layout_height="356dp"
+            android:text='Добро пожаловать в приложение, представленное вам нами, OGscompany. Здесь вы можете отредактировать свою фотографию, взятую из галереи, или же сделанную на камеру! В будущем могут появиться новые функции. Следите за обновлениями! Спасибо, что выбрали нас. Чтобы начать, нажмите на кнопку "Меню" в верхнем левом углу.'
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" android:textSize="18sp" android:typeface="monospace"
+            android:verticalScrollbarPosition="defaultPosition" android:layout_marginTop="150dp"
+            android:lineSpacingExtra="8sp"/>
+    <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp" app:srcCompat="@drawable/ic_menu_camera" android:id="@+id/imageView2"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginBottom="420dp"
+            app:layout_constraintHorizontal_bias="0.0" app:layout_constraintVertical_bias="1.0"
+            android:layout_marginTop="20dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
