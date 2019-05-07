@@ -8,6 +8,7 @@
         tools:context=".Editor.Gallery">
 
     <Button
+            android:onClick="onClick"
             android:text="Gallery"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
