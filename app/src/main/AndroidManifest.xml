@@ -4,6 +4,9 @@
           package="com.OGscompany.graphiceditor">
 
     <uses-permission
+            android:name="android.permission.READ_EXTERNAL_STORAGE"
+            android:required="true"/>
+    <uses-permission
             android:name="android.permission.CAMERA"
             android:required="true"/>
     <uses-permission
@@ -12,6 +15,9 @@
 
     <uses-feature
             android:name="android.hardware.camera"
+            android:required="true"/>
+    <uses-feature
+            android:name="android.hardware.camera.autofocus"
             android:required="true"/>
 
     <dist:module dist:instant="true"/>
@@ -23,9 +29,12 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
+        <activity android:name=".Editor.Rotate">
+        </activity>
         <activity
                 android:name=".Editor.Editor"
-                android:label="@string/title_activity_editor">
+                android:label="@string/title_activity_editor"
+                android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity android:name=".Editor.Gallery">
         </activity>

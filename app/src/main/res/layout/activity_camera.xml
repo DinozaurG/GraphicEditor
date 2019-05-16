@@ -10,17 +10,20 @@
             android:onClick="onClickPhoto"
             android:text="@string/photo"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:id="@+id/btnPhoto" app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="398dp" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="162dp" android:layout_marginBottom="74dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="162dp"/>
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintVertical_bias="0.95"
+    />
     <ImageView
             android:id="@+id/imageView"
-            android:layout_width="417dp"
-            android:layout_height="309dp" app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="402dp"
+            android:layout_height="556dp"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent" android:layout_marginBottom="89dp"
-            app:layout_constraintBottom_toTopOf="@+id/btnPhoto" app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintBottom_toTopOf="@+id/btnPhoto" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.495" app:layout_constraintVertical_bias="1.0">
     </ImageView>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -66,10 +67,8 @@ public class Gallery extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     imageView.setImageBitmap(bitmap);
-                    BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
-                    Bitmap bmp = drawable.getBitmap();
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
                     byte[] array = stream.toByteArray();
                     Intent intent1 = new Intent(this, Editor.class);
                     intent1.putExtra("image",array);

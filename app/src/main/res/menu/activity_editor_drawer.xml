@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+                android:id="@+id/nav_rotate"
+                android:icon="@drawable/ic_menu_camera"
+                android:title="@string/menu_rotate"/>
+        <item
+                android:id="@+id/nav_filter"
+                android:icon="@drawable/ic_menu_gallery"
+                android:title="@string/menu_filter"/>
+        <item
+                android:id="@+id/nav_scale"
+                android:icon="@drawable/ic_menu_slideshow"
+                android:title="@string/menu_scale"/>
+        <item
+                android:id="@+id/nav_segment"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="@string/menu_segment"/>
+        <item
+                android:id="@+id/nav_splane"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="@string/menu_splane"/>
+        <item
+                android:id="@+id/nav_retush"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="@string/menu_retush"/>
+        <item
+                android:id="@+id/nav_mask"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="@string/menu_mask"/>
+        <item
+                android:id="@+id/nav_btf"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="@string/menu_btf"/>
+
+    </group>
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                    android:id="@+id/nav_save"
+                    android:icon="@drawable/ic_menu_send"
+                    android:title="@string/menu_save"/>
+        </menu>
+    </item>
+
+</menu>
