@@ -24,10 +24,7 @@
     <string name="menu_rotateq">Поворот?</string>
     <string name="rd_yes">Да</string>
     <string name="rd_no">Нет</string>
-    <string name="scale1">Нач. точка X</string>
-    <string name="scale2">Нач. точка Y</string>
-    <string name="scale3">Длина куска</string>
-    <string name="scale4">Ширина куска</string>
+    <string name="scale1">Коэффициент</string>
     <string name="title_activity_editor">Editor</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>

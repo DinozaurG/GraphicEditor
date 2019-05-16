@@ -27,8 +27,6 @@ public class Editor extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     ImageView imageView;
     Bitmap bitmap;
-    int width;
-    int height;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,8 +53,6 @@ public class Editor extends AppCompatActivity
             imageView = (ImageView) findViewById(R.id.imageView);
             bitmap = BitmapFactory.decodeByteArray(array, 0, array.length, options);
             imageView.setImageBitmap(bitmap);
-            width = bitmap.getWidth();
-            height = bitmap.getHeight();
         }
     }
     @Override
@@ -90,12 +86,60 @@ public class Editor extends AppCompatActivity
                 public void onClick (View view) {
                     if (!input.getText().toString().isEmpty()) {
                         Toast.makeText(Editor.this, "Ура, поворот!!!", Toast.LENGTH_LONG).show();
-                        String a = input.getText().toString();
-                        int A = Integer.parseInt(a);
-                        Bitmap bmp = bitmap;
-                        Matrix matrix = new Matrix();
-                        matrix.postRotate(A);
-                        bitmap = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true);
+                        String A = input.getText().toString();
+                        int angle = Integer.parseInt(A);
+                        Bitmap bmp = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+                        if (angle < 0) {
+                            angle += 90;
+                        }
+                        if (((angle / 90) & 1) == 1) {
+                            bmp = Bitmap.createBitmap(bitmap.getHeight(), bitmap.getWidth(), Bitmap.Config.ARGB_8888);
+                        }
+                        for (int wh = 0; wh < bitmap.getWidth(); wh++) {
+                            for (int ht = 0; ht < bitmap.getHeight(); ht++) {
+                                int a = wh, b = ht;
+                                if (((angle / 90) & 1) == 1) {
+                                    a = bitmap.getHeight() - ht;
+                                    b = wh;
+                                }
+                                if (((angle / 90) & 2) == 2) {
+                                    a = bitmap.getHeight() - ht;
+                                    b = bitmap.getWidth() - wh;
+                                }
+                                if (a < 0 || a >= bitmap.getWidth()) {
+                                    continue;
+                                }
+                                if (b < 0 || b >= bitmap.getHeight()) {
+                                    continue;
+                                }
+                                bmp.setPixel(a, b, bitmap.getPixel(wh, ht));
+                            }
+                        }
+                        bitmap = bmp;
+                        int X = bmp.getWidth();
+                        int Y = bmp.getHeight();
+                        double a = (double) (90 - angle % 90) * Math.PI / 180.0;
+                        double cosAngle = Math.cos(a);
+                        double sinAngle = Math.sin(a);
+                        double AB = X * sinAngle + Y * cosAngle;
+                        double AD = Y * sinAngle + X * cosAngle;
+                        bmp = Bitmap.createBitmap((int) AB + 2, (int) AD + 2, Bitmap.Config.ARGB_8888);
+                        bmp = bmp.copy(Bitmap.Config.ARGB_8888, true);
+                        for (int nX = 0; nX <= (int) AB; nX++) {
+                            for (int nY = 0; nY <= (int) AD; nY++) {
+                                int wh1 = (int) (nX * sinAngle - nY * cosAngle + X * cosAngle * cosAngle);
+                                int ht1 = (int) (nX * cosAngle + nY * sinAngle - X * sinAngle * cosAngle);
+
+                                if(wh1 < 0 || wh1 >= bitmap.getWidth()) {
+                                    continue;
+                                }
+                                if(ht1 < 0 || ht1 >= bitmap.getHeight()) {
+                                    continue;
+                                }
+                                bmp.setPixel(nX, nY, bitmap.getPixel(wh1, ht1));
+                            }
+                        }
+                        bitmap = bmp;
                         imageView.setImageBitmap(bitmap);
                         dialog.dismiss();
                     } else {
@@ -120,9 +164,6 @@ public class Editor extends AppCompatActivity
             View view1 = getLayoutInflater().inflate(R.layout.activity_scale, null);
 
             final EditText input1 = (EditText) view1.findViewById(R.id.editText2);
-            final EditText input2 = (EditText) view1.findViewById(R.id.editText4);
-            final EditText input3 = (EditText) view1.findViewById(R.id.editText5);
-            final EditText input4 = (EditText) view1.findViewById(R.id.editText6);
 
             Button buttonYes1 = (Button) view1.findViewById(R.id.button4);
             Button buttonNo1 = (Button) view1.findViewById(R.id.button5);
@@ -133,22 +174,62 @@ public class Editor extends AppCompatActivity
             buttonYes1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick (View view) {
-                    if (!input1.getText().toString().isEmpty()
-                            || !input2.getText().toString().isEmpty()
-                            || !input3.getText().toString().isEmpty()
-                            || !input4.getText().toString().isEmpty()) {
+                    if (!input1.getText().toString().isEmpty()) {
                         Toast.makeText(Editor.this, "Масштабируем!!!", Toast.LENGTH_LONG).show();
-                        String b = input1.getText().toString();
-                        int A = Integer.parseInt(b);
-                        b = input2.getText().toString();
-                        int B = Integer.parseInt(b);
-                        b = input3.getText().toString();
-                        int C = Integer.parseInt(b);
-                        b = input4.getText().toString();
-                        int D = Integer.parseInt(b);
-                        Bitmap bmp = bitmap;
+                        String A = input1.getText().toString();
+                        double C = Double.parseDouble(A);
+                        /*Bitmap bmp = bitmap;
                         Matrix matrix = new Matrix();
                         bitmap = Bitmap.createBitmap(bmp, A, B, C, D, matrix, true);
+                        imageView.setImageBitmap(bitmap);*/
+                        int a, b, c, d, x, y, whC, htC, wh = bitmap.getWidth(), ht = bitmap.getHeight();
+                        whC = (int) (bitmap.getWidth() * C);
+                        htC = (int) (bitmap.getHeight() * C);
+                        Bitmap bmp = Bitmap.createBitmap(whC, htC, Bitmap.Config.ARGB_8888);
+                        float x_ratio = ((float)(wh - 1)) / whC;
+                        float y_ratio = ((float)(ht - 1)) / htC;
+                        float x_diff, y_diff, blue, red, green;
+                        for (int i = 0; i < htC; i++) {
+                            for (int j = 0; j < whC; j++) {
+                                x = (int) (x_ratio * j);
+                                y = (int) (y_ratio * i);
+                                x_diff = (x_ratio * j) - x;
+                                y_diff = (y_ratio * i) - y;
+                                try {
+                                    a = bitmap.getPixel(x, y);
+                                    b = bitmap.getPixel(x + 1, y);
+                                    c = bitmap.getPixel(x, y + 1);
+                                    d = bitmap.getPixel(x + 1, y + 1);
+                                } catch (ArrayIndexOutOfBoundsException e) {
+                                    a = bitmap.getPixel(x, y);
+                                    b = bitmap.getPixel(x, y);
+                                    c = bitmap.getPixel(x, y);
+                                    d = bitmap.getPixel(x, y);
+                                }
+
+                                // blue element
+                                // Yb = Ab(1-w)(1-h) + Bb(w)(1-h) + Cb(h)(1-w) + Db(wh)
+                                blue = (a & 0xff) * (1 - x_diff) * (1 - y_diff) + (b & 0xff) * (x_diff) * (1 - y_diff) +
+                                        (c & 0xff) * (y_diff) * (1 - x_diff) + (d & 0xff) * (x_diff * y_diff);
+
+                                // green element
+                                // Yg = Ag(1-w)(1-h) + Bg(w)(1-h) + Cg(h)(1-w) + Dg(wh)
+                                green = ((a >> 8) & 0xff) * (1 - x_diff) * (1 - y_diff) + ((b >> 8) & 0xff) * (x_diff) * (1 - y_diff) +
+                                        ((c >> 8) & 0xff) * (y_diff) * (1 - x_diff) + ((d >> 8) & 0xff) * (x_diff * y_diff);
+
+                                // red element
+                                // Yr = Ar(1-w)(1-h) + Br(w)(1-h) + Cr(h)(1-w) + Dr(wh)
+                                red = ((a >> 16) & 0xff) * (1 - x_diff) * (1 - y_diff) + ((b >> 16) & 0xff) * (x_diff) * (1 - y_diff) +
+                                        ((c >> 16) & 0xff) * (y_diff) * (1 - x_diff) + ((d >> 16) & 0xff) * (x_diff * y_diff);
+
+
+                                bmp.setPixel(j, i, 0xff000000 |
+                                        ((((int) red) << 16) & 0xff0000) |
+                                        ((((int) green) << 8) & 0xff00) |
+                                        ((int) blue));
+                            }
+                        }
+                        bitmap = bmp;
                         imageView.setImageBitmap(bitmap);
                         dialog1.dismiss();
                     } else {

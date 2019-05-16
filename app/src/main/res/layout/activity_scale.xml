@@ -6,35 +6,14 @@
 
     <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:id="@+id/textView4"/>
+            android:layout_height="wrap_content" android:id="@+id/TextView4" android:text="Введите коэффициент"/>
     <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number"
+            android:inputType="number|numberDecimal"
             android:ems="10"
             android:hint="@string/scale1"
             android:id="@+id/editText2"/>
-    <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:ems="10"
-            android:hint="@string/scale2"
-            android:id="@+id/editText4"/>
-    <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:ems="10"
-            android:hint="@string/scale3"
-            android:id="@+id/editText5"/>
-    <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:ems="10"
-            android:hint="@string/scale4"
-            android:id="@+id/editText6"/>
     <Button
             android:text="ОК"
             android:layout_width="match_parent"
