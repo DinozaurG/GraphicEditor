@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <TextView
+            android:text="Выберите фильтр, пожалуйста, сэр"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/textView4"/>
+    <Button
+            android:text="Зелёный"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/button6"/>
+    <Button
+            android:text="Синий"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/button7"/>
+    <Button
+            android:text="Сепия"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/button8"/>
+    <Button
+            android:text="Отмена"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/button9"/>
+</LinearLayout>

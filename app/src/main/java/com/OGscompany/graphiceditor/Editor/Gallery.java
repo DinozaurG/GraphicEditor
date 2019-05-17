@@ -55,20 +55,35 @@ public class Gallery extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
-        Bitmap bitmap = null;
+        Bitmap bmp = null;
         ImageView imageView = findViewById(R.id.imageView);
         switch (requestCode) {
             case GALLERY_REQUEST:
                 if (resultCode == RESULT_OK) {
                     Uri selectedImage = imageReturnedIntent.getData();
                     try {
-                        bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImage);
+                        bmp = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImage);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    imageView.setImageBitmap(bitmap);
+                    imageView.setImageBitmap(bmp);
+                    /*BitmapFactory.Options options = new BitmapFactory.Options();
+                    options.inJustDecodeBounds = true;
+                    int inSampleSize = 1, height = bmp.getHeight(), width = bmp.getWidth();
+                    if (height > 2000 || width > 2000) {
+
+                        final int halfHeight = height / 2;
+                        final int halfWidth = width / 2;
+
+                        while ((halfHeight / inSampleSize) >= 2000 && (halfWidth / inSampleSize) >= 2000) {
+                            inSampleSize *= 2;
+                        }
+                    }
+                    options.inSampleSize = inSampleSize;
+                    Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.id.imageView, options);
+                    String imageType = options.outMimeType;*/
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                    bmp.compress(Bitmap.CompressFormat.JPEG, 100, stream);
                     byte[] array = stream.toByteArray();
                     Intent intent1 = new Intent(this, Editor.class);
                     intent1.putExtra("image",array);

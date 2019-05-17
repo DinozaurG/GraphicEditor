@@ -72,7 +72,7 @@ public class Camera extends AppCompatActivity {
                             imageView = findViewById(R.id.imageView);
                             imageView.setImageBitmap(bitmap);
                             ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
                             byte[] array = stream.toByteArray();
                             Intent intent1 = new Intent(this, Editor.class);
                             intent1.putExtra("image",array);
