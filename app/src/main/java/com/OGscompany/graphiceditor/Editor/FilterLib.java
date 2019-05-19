@@ -1,4 +1,4 @@
-package com.OGscompany.graphiceditor.Editor.Filters;
+package com.OGscompany.graphiceditor.Editor;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -12,7 +12,7 @@ import android.util.Log;
 import java.util.Random;
 
 public class FilterLib{
-	static public Bitmap BlackFilter(Bitmap inBitmap){
+	static public Bitmap greenFilter(Bitmap inBitmap){
         Bitmap fBitmap = Bitmap.createBitmap(inBitmap.getWidth(),inBitmap.getHeight(),inBitmap.getConfig());
         for(int i=0; i<inBitmap.getWidth(); i++){
             for(int j=0; j<inBitmap.getHeight(); j++){
@@ -31,7 +31,7 @@ public class FilterLib{
         return fBitmap;
     }
 	
-    static public Bitmap BlueFilter(Bitmap inBitmap){
+    static public Bitmap blueFilter(Bitmap inBitmap){
         Bitmap fBitmap = Bitmap.createBitmap(inBitmap.getWidth(),inBitmap.getHeight(),inBitmap.getConfig());
         for(int i=0; i<inBitmap.getWidth(); i++){
             for(int j=0; j<inBitmap.getHeight(); j++){
@@ -52,7 +52,7 @@ public class FilterLib{
         return fBitmap;
     }
 
-    static public Bitmap SephiaFilter(Bitmap inBitmap) {
+    static public Bitmap sephiaFilter(Bitmap inBitmap) {
         int r,g,b,count;
         int depth = 18;
         Bitmap fBitmap = Bitmap.createBitmap(inBitmap.getWidth(), inBitmap.getHeight(),inBitmap.getConfig());

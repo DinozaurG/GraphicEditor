@@ -16,7 +16,6 @@ import com.google.android.material.navigation.NavigationView;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
 import java.io.File;
 import java.io.FileOutputStream;
 
@@ -85,71 +84,9 @@ public class Editor extends AppCompatActivity
                     if (!input.getText().toString().isEmpty()) {
                         Toast.makeText(Editor.this, "Ура, поворот!!!", Toast.LENGTH_LONG).show();
                         String A = input.getText().toString();
-                        int angle0 = Integer.parseInt(A);
-                        Bitmap bmp = bitmap.copy(Bitmap.Config.ARGB_8888, true);
-                        while (angle0 < 0) {
-                            angle0 += 360;
-                        }
-                        while (angle0 >= 360) {
-                            angle0 -= 360;
-                        }
-                        int ANG = angle0;
-                        int angle;
-                        if (((angle0 / 90) & 1) == 1){
-                            bmp = Bitmap.createBitmap(bitmap.getHeight(), bitmap.getWidth(), Bitmap.Config.ARGB_8888);
-                            bmp = bmp.copy(Bitmap.Config.ARGB_8888, true);
-                        }
-                        for (; ANG > 0; ANG -= 45) {
-                            if (ANG >= 45)
-                                angle = 45;
-                            else
-                                angle = ANG;
-                            for (int i = 0; i < bitmap.getWidth(); i++) {
-                                for (int j = 0; j < bitmap.getHeight(); j++) {
-                                    int a = i, b = j;
-                                    if (((angle / 90) & 1) == 1) {
-                                        a = bitmap.getHeight() - j;
-                                        b = i;
-                                    }
-                                    if (((angle / 90) & 2) == 2) {
-                                        a = bitmap.getHeight() - j;
-                                        b = bitmap.getWidth() - i;
-                                    }
-                                    if (a < 0 || a >= bitmap.getWidth()) {
-                                        continue;
-                                    }
-                                    if (b < 0 || b >= bitmap.getHeight()) {
-                                        continue;
-                                    }
-                                    bmp.setPixel(a, b, bitmap.getPixel(i, j));
-                                }
-                            }
-                            bitmap = bmp;
-                            int X = bmp.getWidth();
-                            int Y = bmp.getHeight();
-                            double a = (double) (90 - angle % 90) * Math.PI / 180.0;
-                            double cosAngle = Math.cos(a);
-                            double sinAngle = Math.sin(a);
-                            double AB = X * sinAngle + Y * cosAngle;
-                            double AD = Y * sinAngle + X * cosAngle;
-                            bmp = Bitmap.createBitmap((int) AB + 2, (int) AD + 2, Bitmap.Config.ARGB_8888);
-                            bmp = bmp.copy(Bitmap.Config.ARGB_8888, true);
-                            for (int i = 0; i <= (int) AB; i++) {
-                                for (int j = 0; j <= (int) AD; j++) {
-                                    int wh1 = (int) (i * sinAngle - j * cosAngle + X * cosAngle * cosAngle);
-                                    int ht1 = (int) (i * cosAngle + j * sinAngle - X * sinAngle * cosAngle);
-
-                                    if (wh1 < 0 || wh1 >= bitmap.getWidth()) {
-                                        continue;
-                                    }
-                                    if (ht1 < 0 || ht1 >= bitmap.getHeight()) {
-                                        continue;
-                                    }
-                                    bmp.setPixel(i, j, bitmap.getPixel(wh1, ht1));
-                                }
-                            }
-                            bitmap = bmp;
-                        }
+                        int angle = Integer.parseInt(A);
+                        Bitmap bmp = (Bitmap) Rotate.rotateOnAngle(bitmap,angle);
+                        bitmap = bmp;
                         imageView.setImageBitmap(bitmap);
                         dialog.dismiss();
                     } else {
@@ -182,21 +119,7 @@ public class Editor extends AppCompatActivity
             green.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick (View view) {
-                    Bitmap bmp = Bitmap.createBitmap(bitmap.getWidth(),bitmap.getHeight(),bitmap.getConfig());
-                    for(int i = 0; i < bitmap.getWidth(); i++) {
-                        for (int j = 0; j < bitmap.getHeight(); j++) {
-                            int p = bitmap.getPixel(i, j);
-
-                            int r = Color.red(p);
-                            int g = Color.green(p);
-                            int b = Color.blue(p);
-
-                            r = (int) (r * 0.21);
-                            g = (int) (g * 0.71);
-                            b = (int) (b * 0.07);
-                            bmp.setPixel(i, j, Color.argb(Color.alpha(p), r, g, b));
-                        }
-                    }
+                    Bitmap bmp = (Bitmap) FilterLib.greenFilter(bitmap);
                     bitmap = bmp;
                     imageView.setImageBitmap(bitmap);
                     dialog1.dismiss();
@@ -205,23 +128,7 @@ public class Editor extends AppCompatActivity
             blue.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick (View view) {
-                    Bitmap bmp = Bitmap.createBitmap(bitmap.getWidth(),bitmap.getHeight(),bitmap.getConfig());
-                    for(int i = 0; i < bitmap.getWidth(); i++) {
-                        for(int j = 0; j < bitmap.getHeight(); j++) {
-                            int p = bitmap.getPixel(i, j);
-
-                            int r = Color.red(p);
-                            int g = Color.green(p);
-                            int b = Color.blue(p);
-
-                            r = (int) (r * 0.92);
-                            b = (int) (b * 1.25);
-                            if (b > 255) {
-                                b = 255;
-                            }
-                            bmp.setPixel(i, j, Color.argb(Color.alpha(p), r, g, b));
-                        }
-                    }
+                    Bitmap bmp = (Bitmap) FilterLib.blueFilter(bitmap);
                     bitmap = bmp;
                     imageView.setImageBitmap(bitmap);
                     dialog1.dismiss();
@@ -230,35 +137,7 @@ public class Editor extends AppCompatActivity
             sepia.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick (View view) {
-                    int r, g, b, count;
-                    int depth = 18;
-                    Bitmap bmp = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(),bitmap.getConfig());
-                    Canvas canvas = new Canvas(bmp);
-                    Paint paint = new Paint();
-                    ColorMatrix cmt = new ColorMatrix();
-                    cmt.setScale(.4f, .4f, .4f, 1.0f);
-                    ColorMatrixColorFilter ft = new ColorMatrixColorFilter(cmt);
-                    paint.setColorFilter(ft);
-                    canvas.drawBitmap(bitmap, 0, 0, paint);
-                    for(int i = 0; i < bitmap.getWidth(); i++) {
-                        for(int j = 0; j < bitmap.getHeight(); j++) {
-                            int p = bitmap.getPixel(i, j);
-                            r = Color.red(p);
-                            g = Color.green(p);
-                            b = Color.blue(p);
-                            count = (r + g + b) / 3;
-                            r = g = b = count;
-                            r = r + (depth * 2);
-                            g = g + depth;
-                            if (r > 255) {
-                                r = 255;
-                            }
-                            if (g > 255) {
-                                g = 255;
-                            }
-                            bmp.setPixel(i, j, Color.rgb(r, g, b));
-                        }
-                    }
+                    Bitmap bmp = (Bitmap) FilterLib.sephiaFilter(bitmap);
                     bitmap = bmp;
                     imageView.setImageBitmap(bitmap);
                     dialog1.dismiss();
@@ -273,6 +152,45 @@ public class Editor extends AppCompatActivity
             dialog1.show();
 
         } else if (id == R.id.nav_scale) {
+
+
+            AlertDialog.Builder mBuilder2 = new AlertDialog.Builder(Editor.this);
+
+            View view2 = getLayoutInflater().inflate(R.layout.activity_scale, null);
+
+            final EditText input1 = (EditText) view2.findViewById(R.id.editText2);
+
+            Button buttonYes2 = (Button) view2.findViewById(R.id.button4);
+            Button buttonNo2 = (Button) view2.findViewById(R.id.button5);
+
+            mBuilder2.setView(view2);
+            final AlertDialog dialog2 = mBuilder2.create();
+
+            buttonYes2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick (View view) {
+                    if (!input1.getText().toString().isEmpty()) {
+                        Toast.makeText(Editor.this, "Масштабируем!!!", Toast.LENGTH_LONG).show();
+                        String A = input1.getText().toString();
+                        double C = Double.parseDouble(A);
+                        Bitmap bmp = (Bitmap) Scale.scale(bitmap, C);
+                        bitmap = bmp;
+                        imageView.setImageBitmap(bitmap);
+                        dialog2.dismiss();
+                    } else {
+                        Toast.makeText(Editor.this, "Вы не ввели число!!!", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+
+            buttonNo2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick (View view) {
+                    dialog2.dismiss();
+                }
+            });
+
+            dialog2.show();
 
         } else if (id == R.id.nav_segment) {
 
