@@ -1,4 +1,4 @@
-package com.OGscompany.graphiceditor.Editor;
+package com.OGscompany.graphiceditor.Editor.Filters;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -12,7 +12,7 @@ import android.util.Log;
 import java.util.Random;
 
 public class FilterLib{
-	static public Bitmap greenFilter(Bitmap inBitmap){
+	static public Bitmap BlackFilter(Bitmap inBitmap){
         Bitmap fBitmap = Bitmap.createBitmap(inBitmap.getWidth(),inBitmap.getHeight(),inBitmap.getConfig());
         for(int i=0; i<inBitmap.getWidth(); i++){
             for(int j=0; j<inBitmap.getHeight(); j++){
@@ -23,15 +23,15 @@ public class FilterLib{
                 int b = Color.blue(p);
 
                 r = (int) (r*0.21);
-                g = (int) (g*0.71);
-				b = (int) (b*0.07);
+                g = (int) (g*0.21);
+				b = (int) (b*0.21);
                 fBitmap.setPixel(i,j,Color.argb(Color.alpha(p),r,g,b));
             }
         }
         return fBitmap;
     }
 	
-    static public Bitmap blueFilter(Bitmap inBitmap){
+    static public Bitmap BlueFilter(Bitmap inBitmap){
         Bitmap fBitmap = Bitmap.createBitmap(inBitmap.getWidth(),inBitmap.getHeight(),inBitmap.getConfig());
         for(int i=0; i<inBitmap.getWidth(); i++){
             for(int j=0; j<inBitmap.getHeight(); j++){
@@ -51,8 +51,49 @@ public class FilterLib{
         }
         return fBitmap;
     }
+	
+	static public Bitmap RedFilter(Bitmap inBitmap){
+        Bitmap fBitmap = Bitmap.createBitmap(inBitmap.getWidth(),inBitmap.getHeight(),inBitmap.getConfig());
+        for(int i=0; i<inBitmap.getWidth(); i++){
+            for(int j=0; j<inBitmap.getHeight(); j++){
+                int p = inBitmap.getPixel(i, j);
 
-    static public Bitmap sephiaFilter(Bitmap inBitmap) {
+                int r = Color.red(p);
+                int g = Color.green(p);
+                int b = Color.blue(p);
+
+                b = (int) (b*0.92);
+                r = (int) (r*1.25);
+                if (r > 255){
+                    r = 255;
+                }
+                fBitmap.setPixel(i,j,Color.argb(Color.alpha(p),r,g,b));
+            }
+        }
+        return fBitmap;
+    }
+	static public Bitmap GreenFilter(Bitmap inBitmap){
+        Bitmap fBitmap = Bitmap.createBitmap(inBitmap.getWidth(),inBitmap.getHeight(),inBitmap.getConfig());
+        for(int i=0; i<inBitmap.getWidth(); i++){
+            for(int j=0; j<inBitmap.getHeight(); j++){
+                int p = inBitmap.getPixel(i, j);
+
+                int r = Color.red(p);
+                int g = Color.green(p);
+                int b = Color.blue(p);
+
+                b = (int) (b*0.92);
+                g = (int) (g*1.25);
+                if (g > 255){
+                    g = 255;
+                }
+                fBitmap.setPixel(i,j,Color.argb(Color.alpha(p),r,g,b));
+            }
+        }
+        return fBitmap;
+    }
+
+    static public Bitmap SephiaFilter(Bitmap inBitmap) {
         int r,g,b,count;
         int depth = 18;
         Bitmap fBitmap = Bitmap.createBitmap(inBitmap.getWidth(), inBitmap.getHeight(),inBitmap.getConfig());
